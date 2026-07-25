@@ -1,1036 +1,962 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>John Claude Baam - IT Security Engineer</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg-primary: #0a0e14;
-            --bg-secondary: #12171e;
-            --bg-tertiary: #1a2028;
-            --text-primary: #e6e8eb;
-            --text-secondary: #9ba1a8;
-            --accent-primary: #00ff88;
-            --accent-secondary: #00ccff;
-            --accent-tertiary: #7c3aed;
-            --border-color: #2a3340;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'JetBrains Mono', monospace;
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
-
-        /* Animated grid background */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: 
-                linear-gradient(var(--border-color) 1px, transparent 1px),
-                linear-gradient(90deg, var(--border-color) 1px, transparent 1px);
-            background-size: 50px 50px;
-            opacity: 0.3;
-            z-index: -1;
-            animation: gridMove 20s linear infinite;
-        }
-
-        @keyframes gridMove {
-            0% { transform: translate(0, 0); }
-            100% { transform: translate(50px, 50px); }
-        }
-
-        /* Navigation */
-        nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background: rgba(10, 14, 20, 0.95);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--border-color);
-            padding: 1.5rem 0;
-            z-index: 1000;
-            animation: slideDown 0.6s ease-out;
-        }
-
-        @keyframes slideDown {
-            from {
-                transform: translateY(-100%);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-
-        nav .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-family: 'Syne', sans-serif;
-            font-size: 1.25rem;
-            font-weight: 800;
-            color: var(--accent-primary);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2.5rem;
-            list-style: none;
-        }
-
-        .nav-links a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-size: 0.9rem;
-            font-weight: 600;
-            transition: color 0.3s ease;
-            position: relative;
-        }
-
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--accent-primary);
-            transition: width 0.3s ease;
-        }
-
-        .nav-links a:hover {
-            color: var(--accent-primary);
-        }
-
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-
-        /* Container */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-
-        section {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            padding: 6rem 0;
-        }
-
-        /* Hero Section */
-        .hero {
-            position: relative;
-            animation: fadeIn 1s ease-out;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 1;
-        }
-
-        .hero-label {
-            display: inline-block;
-            padding: 0.5rem 1rem;
-            background: var(--bg-tertiary);
-            border: 1px solid var(--border-color);
-            border-radius: 50px;
-            font-size: 0.85rem;
-            margin-bottom: 2rem;
-            animation: slideUp 0.8s ease-out 0.2s both;
-        }
-
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        h1 {
-            font-family: 'Syne', sans-serif;
-            font-size: clamp(3rem, 8vw, 6rem);
-            font-weight: 800;
-            line-height: 1.1;
-            margin-bottom: 1.5rem;
-            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: slideUp 0.8s ease-out 0.4s both;
-        }
-
-        .hero-subtitle {
-            font-size: clamp(1.5rem, 3vw, 2.5rem);
-            color: var(--text-secondary);
-            margin-bottom: 2rem;
-            animation: slideUp 0.8s ease-out 0.6s both;
-        }
-
-        .hero-description {
-            font-size: 1.1rem;
-            color: var(--text-secondary);
-            max-width: 600px;
-            margin-bottom: 3rem;
-            line-height: 1.8;
-            animation: slideUp 0.8s ease-out 0.8s both;
-        }
-
-        .cta-buttons {
-            display: flex;
-            gap: 1.5rem;
-            animation: slideUp 0.8s ease-out 1s both;
-        }
-
-        .btn {
-            padding: 1rem 2rem;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.9rem;
-            font-weight: 600;
-            text-decoration: none;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            border: none;
-            display: inline-block;
-        }
-
-        .btn-primary {
-            background: var(--accent-primary);
-            color: var(--bg-primary);
-            box-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 30px rgba(0, 255, 136, 0.5);
-        }
-
-        .btn-secondary {
-            background: transparent;
-            color: var(--text-primary);
-            border: 1px solid var(--border-color);
-        }
-
-        .btn-secondary:hover {
-            border-color: var(--accent-primary);
-            background: rgba(0, 255, 136, 0.1);
-        }
-
-        /* About Section */
-        .about {
-            background: var(--bg-secondary);
-        }
-
-        .section-header {
-            margin-bottom: 4rem;
-        }
-
-        .section-label {
-            font-size: 0.9rem;
-            color: var(--accent-primary);
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            margin-bottom: 1rem;
-            font-weight: 600;
-        }
-
-        .section-title {
-            font-family: 'Syne', sans-serif;
-            font-size: clamp(2.5rem, 5vw, 4rem);
-            font-weight: 700;
-            color: var(--text-primary);
-        }
-
-        .about-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            align-items: start;
-        }
-
-        .about-text p {
-            font-size: 1.1rem;
-            color: var(--text-secondary);
-            margin-bottom: 1.5rem;
-            line-height: 1.8;
-        }
-
-        .about-stats {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 2rem;
-        }
-
-        .stat-card {
-            background: var(--bg-tertiary);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 2rem;
-            transition: all 0.3s ease;
-        }
-
-        .stat-card:hover {
-            border-color: var(--accent-primary);
-            transform: translateY(-5px);
-        }
-
-        .stat-number {
-            font-family: 'Syne', sans-serif;
-            font-size: 3rem;
-            font-weight: 800;
-            color: var(--accent-primary);
-            margin-bottom: 0.5rem;
-        }
-
-        .stat-label {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-        }
-
-        /* Skills Section */
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-
-        .skill-card {
-            background: var(--bg-tertiary);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 2rem;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .skill-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform 0.3s ease;
-        }
-
-        .skill-card:hover::before {
-            transform: scaleX(1);
-        }
-
-        .skill-card:hover {
-            transform: translateY(-8px);
-            border-color: var(--accent-primary);
-            box-shadow: 0 10px 40px rgba(0, 255, 136, 0.2);
-        }
-
-        .skill-icon {
-            width: 50px;
-            height: 50px;
-            background: rgba(0, 255, 136, 0.1);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 1.5rem;
-            font-size: 1.5rem;
-        }
-
-        .skill-title {
-            font-family: 'Syne', sans-serif;
-            font-size: 1.3rem;
-            font-weight: 700;
-            margin-bottom: 0.75rem;
-            color: var(--text-primary);
-        }
-
-        .skill-description {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            line-height: 1.6;
-        }
-
-        .skill-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            margin-top: 1.5rem;
-        }
-
-        .tag {
-            padding: 0.4rem 0.8rem;
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            border-radius: 20px;
-            font-size: 0.75rem;
-            color: var(--text-secondary);
-        }
-
-        /* Experience Section */
-        .experience {
-            background: var(--bg-secondary);
-        }
-
-        .timeline {
-            position: relative;
-            padding-left: 3rem;
-            margin-top: 3rem;
-        }
-
-        .timeline::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            height: 100%;
-            width: 2px;
-            background: linear-gradient(180deg, var(--accent-primary), var(--accent-secondary));
-        }
-
-        .timeline-item {
-            position: relative;
-            padding-bottom: 3rem;
-        }
-
-        .timeline-item::before {
-            content: '';
-            position: absolute;
-            left: -3.5rem;
-            top: 0;
-            width: 12px;
-            height: 12px;
-            background: var(--accent-primary);
-            border-radius: 50%;
-            box-shadow: 0 0 20px rgba(0, 255, 136, 0.6);
-        }
-
-        .timeline-content {
-            background: var(--bg-tertiary);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 2rem;
-            transition: all 0.3s ease;
-        }
-
-        .timeline-content:hover {
-            border-color: var(--accent-primary);
-            transform: translateX(10px);
-        }
-
-        .timeline-date {
-            display: inline-block;
-            padding: 0.4rem 1rem;
-            background: rgba(0, 255, 136, 0.1);
-            border-radius: 20px;
-            font-size: 0.85rem;
-            color: var(--accent-primary);
-            margin-bottom: 1rem;
-        }
-
-        .timeline-title {
-            font-family: 'Syne', sans-serif;
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 0.5rem;
-        }
-
-        .timeline-company {
-            font-size: 1rem;
-            color: var(--accent-secondary);
-            margin-bottom: 1rem;
-        }
-
-        .timeline-description {
-            color: var(--text-secondary);
-            line-height: 1.8;
-            margin-bottom: 1rem;
-        }
-
-        .timeline-list {
-            list-style: none;
-            padding-left: 0;
-        }
-
-        .timeline-list li {
-            padding-left: 1.5rem;
-            margin-bottom: 0.5rem;
-            color: var(--text-secondary);
-            position: relative;
-        }
-
-        .timeline-list li::before {
-            content: '▹';
-            position: absolute;
-            left: 0;
-            color: var(--accent-primary);
-        }
-
-        /* Contact Section */
-        .contact-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            align-items: center;
-        }
-
-        .contact-info {
-            display: flex;
-            flex-direction: column;
-            gap: 2rem;
-        }
-
-        .contact-item {
-            display: flex;
-            align-items: center;
-            gap: 1.5rem;
-            padding: 1.5rem;
-            background: var(--bg-tertiary);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            transition: all 0.3s ease;
-        }
-
-        .contact-item:hover {
-            border-color: var(--accent-primary);
-            transform: translateX(10px);
-        }
-
-        .contact-icon {
-            width: 50px;
-            height: 50px;
-            background: rgba(0, 255, 136, 0.1);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-        }
-
-        .contact-details h3 {
-            font-family: 'Syne', sans-serif;
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--text-primary);
-            margin-bottom: 0.3rem;
-        }
-
-        .contact-details p {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-        }
-
-        .contact-form {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-
-        .form-group label {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            font-weight: 600;
-        }
-
-        .form-group input,
-        .form-group textarea {
-            padding: 1rem;
-            background: var(--bg-tertiary);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            color: var(--text-primary);
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
-        }
-
-        .form-group input:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: var(--accent-primary);
-            box-shadow: 0 0 20px rgba(0, 255, 136, 0.2);
-        }
-
-        .form-group textarea {
-            resize: vertical;
-            min-height: 150px;
-        }
-
-        /* Footer */
-        footer {
-            background: var(--bg-secondary);
-            border-top: 1px solid var(--border-color);
-            padding: 3rem 0;
-            text-align: center;
-        }
-
-        .social-links {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            margin-bottom: 2rem;
-        }
-
-        .social-links a {
-            width: 50px;
-            height: 50px;
-            background: var(--bg-tertiary);
-            border: 1px solid var(--border-color);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-size: 1.2rem;
-            transition: all 0.3s ease;
-        }
-
-        .social-links a:hover {
-            border-color: var(--accent-primary);
-            color: var(--accent-primary);
-            transform: translateY(-5px);
-        }
-
-        footer p {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            nav .container {
-                flex-direction: column;
-                gap: 1rem;
-            }
-
-            .nav-links {
-                gap: 1.5rem;
-            }
-
-            .about-content,
-            .contact-content {
-                grid-template-columns: 1fr;
-                gap: 2rem;
-            }
-
-            .about-stats {
-                grid-template-columns: 1fr;
-            }
-
-            .skills-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .timeline {
-                padding-left: 2rem;
-            }
-
-            h1 {
-                font-size: 3rem;
-            }
-
-            .cta-buttons {
-                flex-direction: column;
-            }
-        }
-
-        /* Smooth scrolling */
-        html {
-            scroll-behavior: smooth;
-        }
-
-        /* Selection color */
-        ::selection {
-            background: var(--accent-primary);
-            color: var(--bg-primary);
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>127.0.0.1</title>
+<meta name="description" content="Everything about the address that never leaves the building: why it's 127, why IPv4 burned 16.7 million addresses on it, and every strange way to spell it.">
+<meta name="color-scheme" content="light dark">
+<!-- custom favicon: a loop with a packet sitting in the gap -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23131316'/%3E%3Ccircle cx='16' cy='16' r='8' fill='none' stroke='%23FF3B10' stroke-width='3.5' stroke-linecap='round' stroke-dasharray='38 12'/%3E%3Ccircle cx='21.7' cy='10.3' r='3' fill='%23FF3B10'/%3E%3C/svg%3E">
+<script>/* set theme before first paint — no flash of the wrong colours */
+try{var t=localStorage.getItem('lb-theme');if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<style>
+/* ============================================================
+   a field guide to 127.0.0.1
+   one file, zero network requests, no build step.
+   ============================================================ */
+
+:root{
+  color-scheme:light dark;
+
+  --paper:   light-dark(#EFEBE1, #0D0D0F);
+  --ink:     light-dark(#131316, #EDE9E0);
+  --ink-soft:light-dark(#6b6862, #8b877f);
+  --line:    light-dark(#131316, #EDE9E0);
+  --hair:    light-dark(rgba(19,19,22,.18), rgba(237,233,224,.20));
+  --accent:  light-dark(#FF3B10, #FF4A22);
+  --good:    light-dark(#1a7f4b, #4cc98a);
+  --card:    light-dark(#E5E0D4, #161619);
+  --grain:   light-dark(multiply, screen);
+  --grain-o: 0;   /* paper texture. `grain` in the shell previews it at .045 */
+
+  --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
+}
+:root[data-theme="light"]{color-scheme:light}
+:root[data-theme="dark"]{color-scheme:dark}
+
+@supports not (color:light-dark(#000,#fff)){
+  :root{
+    --paper:#EFEBE1;--ink:#131316;--ink-soft:#6b6862;--line:#131316;
+    --hair:rgba(19,19,22,.18);--accent:#FF3B10;--good:#1a7f4b;--card:#E5E0D4;
+    --grain:multiply;--grain-o:0;
+  }
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{
+  font-family:var(--mono);background:var(--paper);color:var(--ink);
+  line-height:1.5;font-size:15px;overflow-x:hidden;-webkit-font-smoothing:antialiased;
+}
+p{text-wrap:pretty}
+h1,h2,.stitle,.saying{text-wrap:balance}
+
+body::after{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:9999;
+  opacity:var(--grain-o);mix-blend-mode:var(--grain);
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='1'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+a{color:inherit}
+::selection{background:var(--accent);color:var(--paper)}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+.rule{height:1px;background:var(--line);opacity:.9}
+
+/* ---------- nav ---------- */
+nav{position:sticky;top:0;z-index:100;container-type:scroll-state}
+.navbar{
+  background:var(--paper);
+  background:color-mix(in srgb,var(--paper) 86%,transparent);
+  backdrop-filter:blur(10px);border-bottom:1px solid var(--line);
+  transition:border-color .35s ease,box-shadow .35s ease;
+}
+@container scroll-state(stuck:top){
+  .navbar{border-bottom-color:var(--accent);box-shadow:0 8px 24px -20px var(--ink)}
+  .brand .tail{opacity:.3}
+}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;height:52px;gap:16px}
+.brand{display:flex;align-items:center;gap:9px;font-weight:700;letter-spacing:-.02em;white-space:nowrap}
+.brand .tail{color:var(--ink-soft);transition:opacity .3s ease}
+.blip{width:8px;height:8px;background:var(--accent);border-radius:50%;animation:blip 2.4s ease-in-out infinite}
+@keyframes blip{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.25;transform:scale(.7)}}
+.navlinks{display:flex;gap:20px;list-style:none;font-size:12.5px;color:var(--ink-soft)}
+.navlinks a{text-decoration:none;position:relative;padding:2px 0}
+.navlinks a::after{content:"";position:absolute;left:0;bottom:0;height:1px;width:0;background:var(--accent);transition:width .25s ease}
+.navlinks a:hover{color:var(--ink)}
+.navlinks a:hover::after{width:100%}
+.toggle{
+  font:inherit;font-size:12px;background:none;border:1px solid var(--line);color:var(--ink);
+  padding:4px 10px;cursor:pointer;letter-spacing:.04em;transition:background .2s,color .2s;
+}
+.toggle:hover{background:var(--ink);color:var(--paper)}
+@media(max-width:860px){.navlinks{display:none}}
+
+/* ---------- hero ---------- */
+.hero{position:relative;padding:clamp(48px,9vw,100px) 0 40px;overflow:hidden}
+.kicker{
+  display:inline-flex;align-items:center;gap:8px;font-size:12px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--ink-soft);margin-bottom:26px;min-height:1.2em;
+}
+.kicker b{color:var(--accent);font-weight:700}
+.bigtype{
+  font-size:clamp(3.4rem,15.5vw,11.5rem);line-height:.84;letter-spacing:-.055em;
+  font-weight:700;display:block;white-space:nowrap;
+  text-box:trim-both cap alphabetic;will-change:transform;
+}
+.bigtype .oct{display:inline-block;transition:transform .35s cubic-bezier(.2,.9,.2,1),color .35s}
+.bigtype:hover .oct{color:var(--accent)}
+.bigtype .oct:hover{transform:translateY(-.06em) rotate(-3deg)}
+.dot{color:var(--accent)}
+.saying{font-size:clamp(1rem,2.6vw,1.7rem);letter-spacing:-.02em;margin-top:26px;max-width:30ch}
+.saying em{font-style:normal;background:var(--accent);color:var(--paper);padding:0 .22em}
+.herogrid{display:grid;grid-template-columns:1.15fr .85fr;gap:40px;align-items:end}
+@media(max-width:860px){.herogrid{grid-template-columns:1fr;gap:26px}}
+.lede{color:var(--ink-soft);max-width:46ch;font-size:14px;margin-top:18px}
+.lede strong{color:var(--ink);font-weight:700}
+
+.loopbox{border:1px solid var(--line);background:var(--card);padding:16px 16px 10px}
+.loopbox h4{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);font-weight:400;margin-bottom:6px}
+#loop{width:100%;height:auto;display:block}
+#loop .track{fill:none;stroke:var(--hair);stroke-width:1.5}
+#loop .beam{fill:none;stroke:var(--accent);stroke-width:2.5;stroke-linecap:round;stroke-dasharray:34 466;animation:travel 3.6s cubic-bezier(.55,0,.45,1) infinite}
+@keyframes travel{from{stroke-dashoffset:500}to{stroke-dashoffset:0}}
+#loop .node{fill:var(--paper);stroke:var(--line);stroke-width:1.5}
+#loop .pulse{fill:var(--accent);animation:pulse 3.6s cubic-bezier(.55,0,.45,1) infinite}
+@keyframes pulse{0%,72%{opacity:0;r:4}86%{opacity:1;r:13}100%{opacity:0;r:20}}
+.loopstats{display:flex;justify-content:space-between;font-size:11.5px;color:var(--ink-soft);border-top:1px solid var(--hair);padding-top:8px;margin-top:4px}
+.loopstats b{color:var(--ink);font-weight:700;font-variant-numeric:tabular-nums}
+
+/* ---------- ticker ---------- */
+.ticker{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--ink);color:var(--paper);overflow:hidden;padding:9px 0}
+.ticker-in{display:flex;width:max-content;animation:slide 60s linear infinite}
+.ticker:hover .ticker-in{animation-play-state:paused}
+@keyframes slide{to{transform:translateX(-50%)}}
+.ticker span{font-size:12.5px;letter-spacing:.05em;padding:0 26px;white-space:nowrap;opacity:.85}
+.ticker span::before{content:"◆";color:var(--accent);margin-right:26px}
+
+/* ---------- sections ---------- */
+section{padding:clamp(56px,9vw,104px) 0}
+section.later{content-visibility:auto;contain-intrinsic-size:auto 700px}
+.shead{display:flex;align-items:baseline;gap:14px;margin-bottom:30px;flex-wrap:wrap}
+.snum{font-size:12px;color:var(--accent);letter-spacing:.1em}
+.stitle{font-size:clamp(1.6rem,4.4vw,3rem);letter-spacing:-.045em;font-weight:700;line-height:1}
+.snote{font-size:12px;color:var(--ink-soft);margin-left:auto}
+.intro{color:var(--ink-soft);max-width:70ch;margin-bottom:28px;font-size:14px}
+
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .6s ease,transform .6s cubic-bezier(.2,.8,.2,1)}
+.reveal.in{opacity:1;transform:none}
+@supports (animation-timeline:view()){
+  .reveal{transition:none;animation:rise linear both;animation-timeline:view();animation-range:entry 8% cover 30%}
+  @keyframes rise{to{opacity:1;transform:none}}
+  .progress{
+    position:fixed;top:0;left:0;height:2px;width:100%;background:var(--accent);
+    transform:scaleX(0);transform-origin:0 50%;z-index:200;
+    animation:fill linear both;animation-timeline:scroll(root);
+  }
+  @keyframes fill{to{transform:scaleX(1)}}
+}
+.progress{display:none}
+@supports (animation-timeline:scroll()){.progress{display:block}}
+
+/* ---------- the parser ---------- */
+.parser{border:1px solid var(--line)}
+.pinput{display:flex;border-bottom:1px solid var(--line);align-items:stretch}
+.pinput .ps{padding:14px 0 14px 16px;color:var(--accent);flex-shrink:0;font-size:14px}
+#addr-in{
+  flex:1;background:none;border:none;outline:none;color:var(--ink);font:inherit;
+  font-size:16px;padding:14px 12px;min-width:0;caret-color:var(--accent);
+}
+#addr-in::placeholder{color:var(--ink-soft);opacity:.7}
+.presets{display:flex;flex-wrap:wrap;gap:0;border-bottom:1px solid var(--line)}
+.chip{
+  font:inherit;font-size:12px;background:none;border:none;border-right:1px solid var(--hair);
+  color:var(--ink-soft);padding:9px 13px;cursor:pointer;transition:background .18s,color .18s;
+}
+.chip:hover{background:var(--accent);color:var(--paper)}
+.presets .lbl{padding:9px 13px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);border-right:1px solid var(--hair)}
+
+.verdict{padding:18px 16px;display:flex;align-items:center;gap:14px;border-bottom:1px solid var(--hair);min-height:64px}
+.stamp{
+  font-size:11px;letter-spacing:.18em;text-transform:uppercase;padding:5px 11px;
+  border:1px solid currentColor;flex-shrink:0;font-weight:700;
+}
+.stamp.yes{color:var(--good)} .stamp.no{color:var(--accent)} .stamp.idle{color:var(--ink-soft)}
+.verdict-txt{font-size:14px;color:var(--ink-soft)}
+.verdict-txt b{color:var(--ink)}
+
+.breakdown{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr))}
+.bd{padding:14px 16px;border-right:1px solid var(--hair);border-top:1px solid var(--hair)}
+.bd:last-child{border-right:none}
+.bd-k{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:6px}
+.bd-v{font-size:14px;word-break:break-all;font-variant-numeric:tabular-nums}
+.bd-v .hi{color:var(--accent);font-weight:700}
+
+/* ---------- comparison ---------- */
+.three{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--line)}
+@media(max-width:860px){.three{grid-template-columns:1fr}}
+.col{padding:22px;border-right:1px solid var(--hair);transition:background .2s}
+.col:last-child{border-right:none}
+.col:hover{background:var(--card)}
+@media(max-width:860px){.col{border-right:none;border-bottom:1px solid var(--hair)}}
+.col h3{font-size:1.15rem;letter-spacing:-.02em;margin-bottom:4px}
+.col .kind{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:14px}
+.col p{font-size:13.5px;color:var(--ink-soft);margin-bottom:10px}
+.col .gotcha{border-left:2px solid var(--accent);padding-left:11px;font-size:13px;color:var(--ink)}
+
+/* ---------- the /8 ---------- */
+.eight{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--line)}
+@media(max-width:860px){.eight{grid-template-columns:1fr}}
+.eight-l{padding:26px;border-right:1px solid var(--hair)}
+@media(max-width:860px){.eight-l{border-right:none;border-bottom:1px solid var(--hair)}}
+.huge{font-size:clamp(2.2rem,7vw,4.4rem);letter-spacing:-.05em;line-height:1;font-variant-numeric:tabular-nums}
+.huge small{display:block;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);margin-top:10px}
+.eight-r{padding:26px;display:flex;flex-direction:column;gap:14px;justify-content:center}
+.field8{
+  height:120px;border:1px solid var(--hair);position:relative;
+  background-image:linear-gradient(var(--hair) 1px,transparent 1px),linear-gradient(90deg,var(--hair) 1px,transparent 1px);
+  background-size:9px 9px;
+}
+.field8 .one{position:absolute;left:0;top:0;width:8px;height:8px;background:var(--accent);animation:blip 2.4s ease-in-out infinite}
+.roll{
+  font:inherit;font-size:12px;letter-spacing:.06em;background:var(--ink);color:var(--paper);
+  border:none;padding:10px 14px;cursor:pointer;align-self:flex-start;transition:background .2s;
+}
+.roll:hover{background:var(--accent)}
+#rolled{font-size:14px;color:var(--ink-soft)}
+#rolled b{color:var(--accent)}
+
+/* ---------- timeline ---------- */
+.hops{border-left:1px solid var(--line);margin-left:6px}
+.hop{position:relative;padding:0 0 28px 30px}
+@supports (animation-timeline:view()){
+  .hop{animation-range:entry calc(6% + sibling-index() * 3%) cover 34%}
+}
+.hop::before{
+  content:"";position:absolute;left:-4.5px;top:7px;width:8px;height:8px;
+  background:var(--paper);border:1px solid var(--line);border-radius:50%;
+  transition:background .25s ease,transform .25s ease,border-color .25s;
+}
+.hop:hover::before{background:var(--accent);border-color:var(--accent);transform:scale(1.6)}
+.hop-top{display:flex;gap:12px;align-items:baseline;flex-wrap:wrap}
+.hop-n{color:var(--accent);font-size:12px;min-width:70px;font-variant-numeric:tabular-nums}
+.hop-host{font-weight:700;letter-spacing:-.01em}
+.hop-say{color:var(--ink-soft);font-size:13.5px;margin-top:5px;max-width:68ch}
+.hop-say code{background:var(--card);padding:1px 5px}
+
+/* ---------- ports ---------- */
+.ports{border:1px solid var(--line);overflow-x:auto}
+.ports table{border-collapse:collapse;width:100%;min-width:560px;font-size:13.5px}
+.ports th{text-align:left;font-weight:400;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--paper);background:var(--ink);padding:10px 16px}
+.ports td{padding:12px 16px;border-bottom:1px solid var(--hair)}
+.ports tr:last-child td{border-bottom:none}
+.ports tbody tr{transition:background .18s ease}
+.ports tbody tr:hover{background:var(--card)}
+.ports tbody tr:hover .pnum{color:var(--accent)}
+.pnum{font-weight:700;white-space:nowrap;transition:color .18s}
+.cmt{color:var(--ink-soft)}
+
+/* ---------- terminal ---------- */
+.term{border:1px solid var(--line);background:var(--ink);color:var(--paper);font-size:13px;cursor:text}
+.term-bar{display:flex;align-items:center;gap:8px;padding:9px 14px;border-bottom:1px solid rgba(128,128,128,.35);font-size:11px;letter-spacing:.1em;text-transform:uppercase;opacity:.7}
+.term-bar i{width:9px;height:9px;border-radius:50%;background:var(--accent);font-style:normal}
+.term-body{padding:16px;height:340px;overflow-y:auto;scrollbar-width:thin}
+.term-body::-webkit-scrollbar{width:8px}
+.term-body::-webkit-scrollbar-thumb{background:rgba(128,128,128,.4)}
+.term-body p{white-space:pre-wrap;word-break:break-word;margin:0 0 3px;line-height:1.6;opacity:1;transform:none;transition:opacity .3s ease,transform .3s ease}
+@starting-style{.term-body p{opacity:0;transform:translateY(5px)}}
+.term-body .u{color:#8be08b}
+.term-body .e{color:var(--accent)}
+.term-body .d{opacity:.55}
+.term-line{display:flex;align-items:center;gap:8px;margin-top:6px}
+.ps1{color:var(--accent);flex-shrink:0}
+#cmd{flex:1;background:none;border:none;outline:none;color:var(--paper);font:inherit;caret-color:var(--accent);padding:0;min-width:0}
+.hint{font-size:11.5px;color:var(--ink-soft);margin-top:10px}
+kbd{border:1px solid var(--hair);padding:1px 5px;font-size:11px}
+
+/* ---------- footer ---------- */
+footer{border-top:1px solid var(--line);padding:26px 0 40px;font-size:12px;color:var(--ink-soft)}
+footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:center}
+footer b{color:var(--ink)}
+.srcs{margin-top:14px;font-size:11.5px;line-height:1.9}
+.srcs a{color:var(--ink-soft)}
+.srcs a:hover{color:var(--accent)}
+
+/* ---------- theme flip ---------- */
+::view-transition-old(root),::view-transition-new(root){animation:none;mix-blend-mode:normal}
+::view-transition-old(root){z-index:1}
+::view-transition-new(root){z-index:2;animation:wipe .5s cubic-bezier(.4,0,.2,1)}
+@keyframes wipe{
+  from{clip-path:circle(0 at var(--tx,50%) var(--ty,0))}
+  to{clip-path:circle(var(--tr,150%) at var(--tx,50%) var(--ty,0))}
+}
+
+@media(prefers-reduced-motion:reduce){
+  *{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+  .reveal{opacity:1;transform:none;animation:none}
+  .progress{display:none}
+  ::view-transition-new(root){animation:none}
+}
+</style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav>
-        <div class="container">
-            <div class="logo">JCB</div>
-            <ul class="nav-links">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#skills">Skills</a></li>
-                <li><a href="#experience">Experience</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
+
+<div class="progress" aria-hidden="true"></div>
+
+<nav>
+ <div class="navbar">
+  <div class="wrap">
+    <div class="brand"><span class="blip"></span>localhost<span class="tail">.is-a.dev</span></div>
+    <ul class="navlinks">
+      <li><a href="#parser">parser</a></li>
+      <li><a href="#three">three addresses</a></li>
+      <li><a href="#eight">the /8</a></li>
+      <li><a href="#history">history</a></li>
+      <li><a href="#ports">ports</a></li>
+      <li><a href="#shell">shell</a></li>
+    </ul>
+    <button class="toggle" id="theme" aria-label="Toggle colour scheme">☾ dark</button>
+  </div>
+ </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker"><b>●</b> <span id="status">resolving…</span></div>
+    <div class="herogrid">
+      <div>
+        <h1 class="bigtype" id="big" aria-label="127.0.0.1">
+          <span class="oct">127</span><span class="dot">.</span><span class="oct">0</span><span class="dot">.</span><span class="oct">0</span><span class="dot">.</span><span class="oct">1</span>
+        </h1>
+        <p class="saying">the address that <em>never leaves the building</em>.</p>
+        <p class="lede">
+          A packet sent here never reaches a cable. The kernel turns it around before
+          it touches the network card. It is the most-used address on Earth and the
+          only one guaranteed to mean <strong>you</strong>. This is a field guide to it —
+          where the number came from, why IPv4 burned <strong>16.7 million addresses</strong>
+          on a job that needed one, and every strange way to spell it.
+        </p>
+      </div>
+
+      <div class="loopbox reveal">
+        <h4>loopback · packet 1 of ∞</h4>
+        <svg id="loop" viewBox="0 0 320 150" role="img" aria-label="A packet leaving and returning to the same host">
+          <path class="track" d="M40 110 C 40 20, 150 10, 190 55 C 225 95, 265 95, 280 60 C 295 25, 250 5, 215 40 C 175 80, 100 130, 40 110 Z"/>
+          <path class="beam" pathLength="500" d="M40 110 C 40 20, 150 10, 190 55 C 225 95, 265 95, 280 60 C 295 25, 250 5, 215 40 C 175 80, 100 130, 40 110 Z"/>
+          <circle class="pulse" cx="40" cy="110" r="4"/>
+          <circle class="node" cx="40" cy="110" r="7"/>
+          <text x="40" y="138" font-size="10" fill="currentColor" text-anchor="middle" opacity=".6" font-family="monospace">you are here</text>
+        </svg>
+        <div class="loopstats">
+          <span>rtt <b id="rtt">0.000</b> ms</span>
+          <span>mtu <b>65536</b></span>
+          <span>loss <b>0%</b></span>
         </div>
-    </nav>
+      </div>
+    </div>
+  </div>
+</header>
 
-    <!-- Hero Section -->
-    <section id="home" class="hero">
-        <div class="container">
-            <div class="hero-content">
-                <span class="hero-label">🔒 IT Security Professional</span>
-                <h1>John Claude Baam</h1>
-                <p class="hero-subtitle">Cybersecurity Engineer</p>
-                <p class="hero-description">
-                    Specializing in penetration testing, security architecture, and threat intelligence. 
-                    Dedicated to protecting digital assets and building resilient security infrastructures.
-                </p>
-                <div class="cta-buttons">
-                    <a href="#contact" class="btn btn-primary">Get in Touch</a>
-                    <a href="#experience" class="btn btn-secondary">View Experience</a>
-                </div>
-            </div>
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-in" id="tick"></div>
+</div>
+
+<section id="parser">
+  <div class="wrap">
+    <div class="shead reveal">
+      <span class="snum">01</span>
+      <h2 class="stitle">say it another way</h2>
+      <span class="snote">runs in your browser</span>
+    </div>
+    <p class="intro reveal">
+      <code>127.1</code>, <code>2130706433</code> and <code>0x7f000001</code> are all the same address.
+      That's <code>inet_aton()</code>: when you give it fewer than four parts, the last one
+      absorbs all the remaining bytes — and every part may be decimal, octal (leading zero)
+      or hex (<code>0x</code>). Type anything below and watch it resolve. This is the real
+      algorithm, not a lookup table.
+    </p>
+
+    <div class="parser reveal">
+      <div class="pinput">
+        <span class="ps">$&nbsp;ping</span>
+        <input id="addr-in" value="127.1" spellcheck="false" autocomplete="off" autocapitalize="off" aria-label="Address to parse">
+      </div>
+      <div class="presets" id="presets">
+        <span class="lbl">try</span>
+      </div>
+      <div class="verdict">
+        <span class="stamp idle" id="stamp">—</span>
+        <span class="verdict-txt" id="verdict">waiting for input</span>
+      </div>
+      <div class="breakdown">
+        <div class="bd"><div class="bd-k">dotted quad</div><div class="bd-v" id="bd-dot">—</div></div>
+        <div class="bd"><div class="bd-k">32-bit value</div><div class="bd-v" id="bd-dec">—</div></div>
+        <div class="bd"><div class="bd-k">hex</div><div class="bd-v" id="bd-hex">—</div></div>
+        <div class="bd"><div class="bd-k">binary</div><div class="bd-v" id="bd-bin">—</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<section id="three" class="later">
+  <div class="wrap">
+    <div class="shead reveal">
+      <span class="snum">02</span>
+      <h2 class="stitle">three things that are not the same</h2>
+      <span class="snote">this is the bug you keep hitting</span>
+    </div>
+    <div class="three reveal">
+      <div class="col">
+        <h3>localhost</h3>
+        <div class="kind">a name</div>
+        <p>A special-use domain name (RFC 6761, 2013). Resolvers are supposed to answer it
+           locally and never send it to a DNS server.</p>
+        <p class="gotcha">It can resolve to <b>::1</b> before <b>127.0.0.1</b>. If your server
+           bound only to IPv4, <code>localhost</code> fails while <code>127.0.0.1</code> works.
+           That's the classic "connection refused" that makes no sense.</p>
+      </div>
+      <div class="col">
+        <h3>127.0.0.1</h3>
+        <div class="kind">an address</div>
+        <p>One specific IPv4 loopback address out of 16,777,216. No name resolution involved,
+           no ambiguity, IPv4 only.</p>
+        <p class="gotcha">Routers <b>must</b> drop any packet with a 127/8 address that appears
+           on a real network (RFC 1122). It cannot travel.</p>
+      </div>
+      <div class="col">
+        <h3>0.0.0.0</h3>
+        <div class="kind">a wildcard</div>
+        <p>Not a destination. When a server binds it, it means "every interface I have" —
+           which is why your dev server is suddenly reachable from the coffee shop wifi.</p>
+        <p class="gotcha">In Aug 2024 Oligo Security showed browsers would let a public website
+           POST to <b>0.0.0.0</b> and land on your localhost services. An 18-year-old hole.
+           Windows was immune — it blocks it at the OS.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<section id="eight" class="later">
+  <div class="wrap">
+    <div class="shead reveal">
+      <span class="snum">03</span>
+      <h2 class="stitle">the /8 that got away</h2>
+      <span class="snote">16,777,216 addresses, one job</span>
+    </div>
+    <p class="intro reveal">
+      IPv4 has about 4.3 billion addresses and we ran out. One in every 256 of them is
+      reserved for talking to yourself. IPv6 looked at this and assigned exactly one:
+      <code>::1/128</code>. There is an active IETF draft to claw most of 127/8 back for
+      normal unicast use.
+    </p>
+    <div class="eight reveal">
+      <div class="eight-l">
+        <div class="huge" id="count">16,777,216<small>ipv4 loopback addresses</small></div>
+        <div class="huge" style="margin-top:26px">1<small>ipv6 loopback addresses</small></div>
+      </div>
+      <div class="eight-r">
+        <div class="field8" aria-hidden="true"><span class="one"></span></div>
+        <p class="lede" style="margin:0">Every cell is 65,536 addresses. The lit one is
+           <code>127.0.0.1</code>. On Linux the whole block already answers — try it.</p>
+        <button class="roll" id="roll">ping a random one</button>
+        <p id="rolled">—</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<section id="history" class="later">
+  <div class="wrap">
+    <div class="shead reveal">
+      <span class="snum">04</span>
+      <h2 class="stitle">how 127 got the job</h2>
+      <span class="snote">nobody planned this</span>
+    </div>
+    <div class="hops">
+      <div class="hop reveal">
+        <div class="hop-top"><span class="hop-n">Sep 1981</span><span class="hop-host">RFC 790</span></div>
+        <p class="hop-say">Jon Postel lists network <code>127</code> as "reserved" — and doesn't say what for.
+           His habit was to hold back the first and last network of every class. Class A ran 0–127,
+           so 127 was simply the last one on the shelf. No technical reason. No plan.</p>
+      </div>
+      <div class="hop reveal">
+        <div class="hop-top"><span class="hop-n">1983</span><span class="hop-host">4.2BSD</span></div>
+        <p class="hop-say">Bill Joy and Sam Leffler wire <code>127.0.0.1</code> into the loopback code.
+           4.2BSD spreads everywhere, and the convention becomes fact by shipping — the way most
+           standards actually happen.</p>
+      </div>
+      <div class="hop reveal">
+        <div class="hop-top"><span class="hop-n">1986</span><span class="hop-host">RFC 990</span></div>
+        <p class="hop-say">Postel and Joyce Reynolds write down what the code has already been doing
+           for three years. The documentation catches up with the implementation.</p>
+      </div>
+      <div class="hop reveal">
+        <div class="hop-top"><span class="hop-n">Oct 1989</span><span class="hop-host">RFC 1122 §3.2.1.3</span></div>
+        <p class="hop-say">The rule gets teeth: <code>127.0.0.0/8</code> is the internal host loopback
+           address, and it <b>must never appear on a network outside the host</b>. A whole Class A,
+           locked, forever.</p>
+      </div>
+      <div class="hop reveal">
+        <div class="hop-top"><span class="hop-n">1998</span><span class="hop-host">IPv6 · ::1/128</span></div>
+        <p class="hop-say">Learning from the waste, IPv6 assigns loopback exactly one address
+           out of 340 undecillion. Sixteen million down to one.</p>
+      </div>
+      <div class="hop reveal">
+        <div class="hop-top"><span class="hop-n">Feb 2013</span><span class="hop-host">RFC 6761</span></div>
+        <p class="hop-say">"localhost" becomes an official special-use domain name. Resolvers
+           <b>should</b> answer it themselves and never leak it to a DNS server — which, in practice,
+           they sometimes still do.</p>
+      </div>
+      <div class="hop reveal">
+        <div class="hop-top"><span class="hop-n">Aug 2024</span><span class="hop-host">0.0.0.0 Day</span></div>
+        <p class="hop-say">Oligo Security discloses that Chrome, Firefox and Safari all let public
+           websites reach services on your machine through <code>0.0.0.0</code>, sidestepping CORS
+           and Private Network Access. The bug was roughly 18 years old.</p>
+      </div>
+      <div class="hop reveal">
+        <div class="hop-top"><span class="hop-n">now</span><span class="hop-host">draft-schoen-intarea-unicast-127</span></div>
+        <p class="hop-say">An IETF draft proposes returning most of 127/8 to ordinary use, keeping
+           only what's actually needed. Forty years on, someone is finally trying to tidy up.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<section id="ports" class="later">
+  <div class="wrap">
+    <div class="shead reveal">
+      <span class="snum">05</span>
+      <h2 class="stitle">ports you already know by heart</h2>
+      <span class="snote">no lookup needed</span>
+    </div>
+    <div class="ports reveal">
+      <table>
+        <thead><tr><th>address</th><th>what's listening</th><th># note</th></tr></thead>
+        <tbody>
+          <tr><td class="pnum">127.0.0.1:3000</td><td>a Node app</td><td class="cmt"># the default default</td></tr>
+          <tr><td class="pnum">127.0.0.1:5173</td><td>Vite</td><td class="cmt"># the new 3000</td></tr>
+          <tr><td class="pnum">127.0.0.1:8080</td><td>something in Java, probably</td><td class="cmt"># or a proxy you forgot</td></tr>
+          <tr><td class="pnum">127.0.0.1:5432</td><td>PostgreSQL</td><td class="cmt"># still running from last year</td></tr>
+          <tr><td class="pnum">127.0.0.1:6379</td><td>Redis</td><td class="cmt"># do not expose this one. ever.</td></tr>
+          <tr><td class="pnum">127.0.0.1:631</td><td>CUPS</td><td class="cmt"># your printer has a web server. it has opinions.</td></tr>
+          <tr><td class="pnum">127.0.0.53:53</td><td>systemd-resolved</td><td class="cmt"># yes, that's a different loopback address</td></tr>
+          <tr><td class="pnum">127.0.0.1:11434</td><td>Ollama</td><td class="cmt"># the GPU is warm for a reason</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="intro reveal" style="margin-top:22px">
+      Browsers treat <code>http://localhost</code>, <code>127.0.0.0/8</code> and <code>::1/128</code>
+      as <b>potentially trustworthy</b> origins. That's why service workers, <code>getUserMedia</code>
+      and the other HTTPS-only APIs work on your dev server without a certificate. The reasoning is
+      simple: the bytes never left your machine, so there was nothing to intercept.
+    </p>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<section id="shell" class="later">
+  <div class="wrap">
+    <div class="shead reveal">
+      <span class="snum">06</span>
+      <h2 class="stitle">ask it yourself</h2>
+      <span class="snote">try: rfc 1122</span>
+    </div>
+    <div class="term reveal" id="term">
+      <div class="term-bar"><i></i> guest@localhost — /home/nobody</div>
+      <div class="term-body" id="out"></div>
+      <div style="padding:0 16px 16px">
+        <div class="term-line">
+          <span class="ps1">guest@localhost:~$</span>
+          <input id="cmd" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Terminal input">
         </div>
-    </section>
+      </div>
+    </div>
+    <p class="hint">type <kbd>help</kbd> · <kbd>↑</kbd> for history · everything runs in your browser and touches nothing</p>
+  </div>
+</section>
 
-    <!-- About Section -->
-    <section id="about" class="about">
-        <div class="container">
-            <div class="section-header">
-                <p class="section-label">About Me</p>
-                <h2 class="section-title">Securing Digital Frontiers</h2>
-            </div>
-            <div class="about-content">
-                <div class="about-text">
-                    <p>
-                        With extensive experience in cybersecurity and information security engineering, 
-                        I specialize in identifying vulnerabilities, designing security solutions, and 
-                        implementing robust defense mechanisms against evolving threats.
-                    </p>
-                    <p>
-                        My approach combines technical expertise with strategic thinking, ensuring that 
-                        security measures not only protect but also enable business growth. I'm passionate 
-                        about staying ahead of the threat landscape and building security-first cultures.
-                    </p>
-                </div>
-                <div class="about-stats">
-                    <div class="stat-card">
-                        <div class="stat-number">8+</div>
-                        <div class="stat-label">Years Experience</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-number">50+</div>
-                        <div class="stat-label">Projects Secured</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-number">15+</div>
-                        <div class="stat-label">Certifications</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-number">99.9%</div>
-                        <div class="stat-label">Uptime Rate</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+<footer>
+  <div class="wrap">
+    <span>a field guide to <b>127.0.0.1</b> · maintained by nobody in particular</span>
+    <span><span id="weight">—</span></span>
+  </div>
+  <div class="wrap srcs">
+    sources —
+    <a href="https://datatracker.ietf.org/doc/html/rfc1122#section-3.2.1.3">RFC 1122</a> ·
+    <a href="https://datatracker.ietf.org/doc/html/rfc6761">RFC 6761</a> ·
+    <a href="https://datatracker.ietf.org/doc/html/rfc4291">RFC 4291</a> ·
+    <a href="https://elists.isoc.org/pipermail/internet-history/2021-January/006912.html">internet-history on 127/8</a> ·
+    <a href="https://datatracker.ietf.org/doc/html/draft-schoen-intarea-unicast-127-05">unicast-127 draft</a> ·
+    <a href="https://www.oligo.security/blog/0-0-0-0-day-exploiting-localhost-apis-from-the-browser">0.0.0.0 Day</a> ·
+    <a href="https://www.w3.org/TR/secure-contexts/">Secure Contexts</a> ·
+    <a href="https://rixx.de/blog/fun-legacy-ip-addresses/">legacy IP forms</a>
+  </div>
+</footer>
 
-    <!-- Skills Section -->
-    <section id="skills" class="skills">
-        <div class="container">
-            <div class="section-header">
-                <p class="section-label">Expertise</p>
-                <h2 class="section-title">Technical Skills</h2>
-            </div>
-            <div class="skills-grid">
-                <div class="skill-card">
-                    <div class="skill-icon">🛡️</div>
-                    <h3 class="skill-title">Penetration Testing</h3>
-                    <p class="skill-description">
-                        Expert in ethical hacking, vulnerability assessment, and exploitation techniques 
-                        to identify and remediate security weaknesses.
-                    </p>
-                    <div class="skill-tags">
-                        <span class="tag">Metasploit</span>
-                        <span class="tag">Burp Suite</span>
-                        <span class="tag">Kali Linux</span>
-                    </div>
-                </div>
-                <div class="skill-card">
-                    <div class="skill-icon">🔐</div>
-                    <h3 class="skill-title">Security Architecture</h3>
-                    <p class="skill-description">
-                        Design and implementation of secure network architectures, zero-trust models, 
-                        and defense-in-depth strategies.
-                    </p>
-                    <div class="skill-tags">
-                        <span class="tag">Firewall</span>
-                        <span class="tag">VPN</span>
-                        <span class="tag">IAM</span>
-                    </div>
-                </div>
-                <div class="skill-card">
-                    <div class="skill-icon">📊</div>
-                    <h3 class="skill-title">Threat Intelligence</h3>
-                    <p class="skill-description">
-                        Monitoring, analyzing, and responding to emerging threats using advanced 
-                        SIEM tools and threat hunting methodologies.
-                    </p>
-                    <div class="skill-tags">
-                        <span class="tag">Splunk</span>
-                        <span class="tag">ELK Stack</span>
-                        <span class="tag">MITRE ATT&CK</span>
-                    </div>
-                </div>
-                <div class="skill-card">
-                    <div class="skill-icon">☁️</div>
-                    <h3 class="skill-title">Cloud Security</h3>
-                    <p class="skill-description">
-                        Securing cloud infrastructure across AWS, Azure, and GCP with focus on 
-                        compliance, encryption, and access management.
-                    </p>
-                    <div class="skill-tags">
-                        <span class="tag">AWS</span>
-                        <span class="tag">Azure</span>
-                        <span class="tag">GCP</span>
-                    </div>
-                </div>
-                <div class="skill-card">
-                    <div class="skill-icon">📝</div>
-                    <h3 class="skill-title">Compliance & Risk</h3>
-                    <p class="skill-description">
-                        Ensuring adherence to security frameworks and regulations including ISO 27001, 
-                        NIST, GDPR, and PCI-DSS.
-                    </p>
-                    <div class="skill-tags">
-                        <span class="tag">ISO 27001</span>
-                        <span class="tag">NIST</span>
-                        <span class="tag">GDPR</span>
-                    </div>
-                </div>
-                <div class="skill-card">
-                    <div class="skill-icon">🔧</div>
-                    <h3 class="skill-title">Security Automation</h3>
-                    <p class="skill-description">
-                        Developing automated security workflows, CI/CD pipeline security, and 
-                        infrastructure-as-code security scanning.
-                    </p>
-                    <div class="skill-tags">
-                        <span class="tag">Python</span>
-                        <span class="tag">Ansible</span>
-                        <span class="tag">Terraform</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+<script>
+(function(){
+"use strict";
 
-    <!-- Experience Section -->
-    <section id="experience" class="experience">
-        <div class="container">
-            <div class="section-header">
-                <p class="section-label">Career Path</p>
-                <h2 class="section-title">Professional Experience</h2>
-            </div>
-            <div class="timeline">
-                <div class="timeline-item">
-                    <div class="timeline-content">
-                        <span class="timeline-date">2021 - Present</span>
-                        <h3 class="timeline-title">Senior Security Engineer</h3>
-                        <p class="timeline-company">TechCorp Global</p>
-                        <p class="timeline-description">
-                            Leading security initiatives across enterprise infrastructure, managing a team 
-                            of security analysts, and implementing comprehensive security strategies.
-                        </p>
-                        <ul class="timeline-list">
-                            <li>Architected zero-trust security framework reducing breach attempts by 85%</li>
-                            <li>Led penetration testing operations identifying critical vulnerabilities</li>
-                            <li>Implemented automated threat detection system with 99.5% accuracy</li>
-                            <li>Achieved SOC 2 Type II compliance across all services</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-content">
-                        <span class="timeline-date">2019 - 2021</span>
-                        <h3 class="timeline-title">Security Analyst</h3>
-                        <p class="timeline-company">CyberDefense Inc.</p>
-                        <p class="timeline-description">
-                            Conducted security assessments, monitored network traffic, and responded to 
-                            security incidents in real-time.
-                        </p>
-                        <ul class="timeline-list">
-                            <li>Performed comprehensive vulnerability assessments for 50+ clients</li>
-                            <li>Reduced incident response time by 60% through automation</li>
-                            <li>Developed custom security monitoring dashboards</li>
-                            <li>Trained junior analysts on security best practices</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-content">
-                        <span class="timeline-date">2017 - 2019</span>
-                        <h3 class="timeline-title">Junior Security Engineer</h3>
-                        <p class="timeline-company">SecureNet Solutions</p>
-                        <p class="timeline-description">
-                            Assisted in security audits, firewall management, and implementing security 
-                            policies for mid-sized enterprises.
-                        </p>
-                        <ul class="timeline-list">
-                            <li>Managed firewall rules and network security configurations</li>
-                            <li>Conducted regular security awareness training sessions</li>
-                            <li>Assisted in achieving ISO 27001 certification</li>
-                            <li>Supported incident response and forensics investigations</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+var root=document.documentElement;
+var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    <!-- Contact Section -->
-    <section id="contact" class="contact">
-        <div class="container">
-            <div class="section-header">
-                <p class="section-label">Get in Touch</p>
-                <h2 class="section-title">Let's Connect</h2>
-            </div>
-            <div class="contact-content">
-                <div class="contact-info">
-                    <div class="contact-item">
-                        <div class="contact-icon">📧</div>
-                        <div class="contact-details">
-                            <h3>Email</h3>
-                            <p>john.baam@securemail.com</p>
-                        </div>
-                    </div>
-                    <div class="contact-item">
-                        <div class="contact-icon">📱</div>
-                        <div class="contact-details">
-                            <h3>Phone</h3>
-                            <p>+1 (555) 123-4567</p>
-                        </div>
-                    </div>
-                    <div class="contact-item">
-                        <div class="contact-icon">📍</div>
-                        <div class="contact-details">
-                            <h3>Location</h3>
-                            <p>San Francisco, CA</p>
-                        </div>
-                    </div>
-                </div>
-                <form class="contact-form">
-                    <div class="form-group">
-                        <label for="name">Name</label>
-                        <input type="text" id="name" name="name" placeholder="Your Name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" id="email" name="email" placeholder="your.email@example.com" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="message">Message</label>
-                        <textarea id="message" name="message" placeholder="Your message here..." required></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Send Message</button>
-                </form>
-            </div>
-        </div>
-    </section>
+/* ---------- theme, flipped with a View Transition ---------- */
+var tbtn=document.getElementById('theme');
+label();
+function current(){ return root.dataset.theme || (matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'); }
+function label(){ tbtn.textContent = current()==='dark' ? '☀ light' : '☾ dark'; }
+function setTheme(t){ root.dataset.theme=t; label(); try{localStorage.setItem('lb-theme',t)}catch(e){} }
+tbtn.addEventListener('click',function(){
+  var next = current()==='dark' ? 'light' : 'dark';
+  var r=tbtn.getBoundingClientRect(), x=r.left+r.width/2, y=r.top+r.height/2;
+  root.style.setProperty('--tx',x+'px');
+  root.style.setProperty('--ty',y+'px');
+  root.style.setProperty('--tr',Math.hypot(Math.max(x,innerWidth-x),Math.max(y,innerHeight-y))+'px');
+  if(reduce || !document.startViewTransition) return setTheme(next);
+  document.startViewTransition(function(){ setTheme(next); });
+});
 
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <div class="social-links">
-                <a href="#" aria-label="LinkedIn">💼</a>
-                <a href="#" aria-label="GitHub">🔗</a>
-                <a href="#" aria-label="Twitter">🐦</a>
-                <a href="#" aria-label="Medium">📝</a>
-            </div>
-            <p>&copy; 2024 John Claude Baam. All rights reserved.</p>
-        </div>
-    </footer>
+/* ---------- hero status line ---------- */
+var statusEl=document.getElementById('status');
+var MSG='connection established · rtt 0.000ms · you are already home';
+if(reduce){ statusEl.textContent=MSG; }
+else{
+  var GLYPH='!<>-_\\/[]{}—=+*^?#01', t=performance.now();
+  (function frame(now){
+    var p=Math.min(1,(now-t)/1400), s='';
+    for(var i=0;i<MSG.length;i++) s += (i/MSG.length < p*1.25) ? MSG[i] : GLYPH[(Math.random()*GLYPH.length)|0];
+    statusEl.textContent=s;
+    if(p<1) requestAnimationFrame(frame);
+  })(t);
+}
 
-    <script>
-        // Smooth scroll for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
+/* ---------- rtt jitter ---------- */
+var rtt=document.getElementById('rtt'), timer;
+function startStats(){ if(!timer) timer=setInterval(function(){ rtt.textContent=(Math.random()*0.004).toFixed(3); },900); }
+function stopStats(){ clearInterval(timer); timer=null; }
+document.addEventListener('visibilitychange',function(){ document.hidden?stopStats():startStats(); });
+startStats();
+document.getElementById('weight').textContent=(root.outerHTML.length/1024).toFixed(0)+' KB · one file · no trackers · no cookies';
 
-        // Add scroll-based animations
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -100px 0px'
-        };
+/* ---------- ticker ---------- */
+var LINES=[
+  'a loopback packet never reaches the network card',
+  'the loopback MTU is 65536, not 1500',
+  '127 was reserved in 1981 and nobody said why',
+  '4.2BSD picked 127.0.0.1 in 1983 and everyone copied it',
+  'RFC 1122: this address must never appear on a network',
+  'IPv6 loopback is exactly one address: ::1',
+  'ping 127.1 works — inet_aton fills in the gaps',
+  '2130706433 is the same address in decimal',
+  'http://localhost is a secure context without a certificate',
+  '16,777,216 addresses reserved. one needed.'
+];
+var html='';
+for(var r=0;r<2;r++) for(var i=0;i<LINES.length;i++) html+='<span>'+LINES[i]+'</span>';
+document.getElementById('tick').innerHTML=html;
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }
-            });
-        }, observerOptions);
+/* ---------- reveals: only where CSS scroll timelines are unavailable ---------- */
+if(!(window.CSS && CSS.supports && CSS.supports('animation-timeline','view()'))){
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+  },{threshold:.12,rootMargin:'0px 0px -60px'});
+  document.querySelectorAll('.reveal').forEach(function(el,i){
+    el.style.transitionDelay=(i%4)*60+'ms'; io.observe(el);
+  });
+}
 
-        // Observe skill cards and timeline items
-        document.querySelectorAll('.skill-card, .timeline-item').forEach(el => {
-            el.style.opacity = '0';
-            el.style.transform = 'translateY(30px)';
-            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-            observer.observe(el);
-        });
+/* ---------- hero parallax ---------- */
+if(!reduce && matchMedia('(pointer:fine)').matches){
+  var big=document.getElementById('big'), queued=false, px=0, py=0;
+  addEventListener('pointermove',function(e){
+    px=e.clientX/innerWidth-.5; py=e.clientY/innerHeight-.5;
+    if(queued) return;
+    queued=true;
+    requestAnimationFrame(function(){
+      big.style.transform='translate3d('+(px*14).toFixed(2)+'px,'+(py*8).toFixed(2)+'px,0)';
+      queued=false;
+    });
+  },{passive:true});
+}
 
-        // Form submission (placeholder)
-        document.querySelector('.contact-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            alert('Thank you for your message! This is a demo portfolio, so the form doesn\'t actually send emails.');
-            this.reset();
-        });
-    </script>
+/* ============================================================
+   the parser — a faithful inet_aton()
+   1 part : the whole 32 bits          2 parts: a . 24 bits
+   3 parts: a . b . 16 bits            4 parts: a . b . c . d
+   each part may be decimal, octal (leading 0) or hex (0x)
+   ============================================================ */
+function inet_aton(str){
+  var s=str.trim();
+  if(!s) return null;
+  var parts=s.split('.');
+  if(parts.length<1 || parts.length>4) return null;
+  var nums=[];
+  for(var i=0;i<parts.length;i++){
+    var p=parts[i], v;
+    if(p==='') return null;
+    if(/^0[xX][0-9a-fA-F]+$/.test(p))      v=parseInt(p.slice(2),16);
+    else if(/^0[0-7]+$/.test(p))           v=parseInt(p.slice(1),8);
+    else if(/^[0-9]+$/.test(p))            v=parseInt(p,10);
+    else return null;
+    if(!isFinite(v)) return null;
+    nums.push(v);
+  }
+  var n=nums.length;
+  /* every part but the last is one byte; the last absorbs what's left */
+  for(var i=0;i<n-1;i++) if(nums[i]>255) return null;
+  var lastMax=[0,4294967295,16777215,65535,255][n];
+  if(nums[n-1]>lastMax) return null;
+  var val=nums[n-1];
+  for(var i=0;i<n-1;i++) val += nums[i]*Math.pow(256,3-i);
+  return val;
+}
+function quad(v){
+  return [Math.floor(v/16777216)%256,Math.floor(v/65536)%256,Math.floor(v/256)%256,v%256];
+}
+function pad(s,n){ while(s.length<n) s='0'+s; return s; }
+
+var input=document.getElementById('addr-in'),
+    stamp=document.getElementById('stamp'), verdict=document.getElementById('verdict'),
+    bdDot=document.getElementById('bd-dot'), bdDec=document.getElementById('bd-dec'),
+    bdHex=document.getElementById('bd-hex'), bdBin=document.getElementById('bd-bin');
+
+function show(state,txt){
+  stamp.className='stamp '+state.cls; stamp.textContent=state.label; verdict.innerHTML=txt;
+}
+function clearBd(){ bdDot.textContent=bdDec.textContent=bdHex.textContent=bdBin.textContent='—'; }
+
+function evaluate(){
+  var raw=input.value.trim(), low=raw.toLowerCase();
+
+  if(!raw){ show({cls:'idle',label:'—'},'waiting for input'); clearBd(); return; }
+
+  /* the two special names, handled the way a resolver would */
+  if(low==='localhost'||low.endsWith('.localhost')){
+    show({cls:'yes',label:'loopback'},
+      'A <b>name</b>, not an address (RFC 6761). Your resolver answers it locally — usually <b>127.0.0.1</b>, but it may hand you <b>::1</b> first.');
+    bdDot.textContent='127.0.0.1 or ::1'; bdDec.textContent='n/a — resolved, not parsed';
+    bdHex.textContent='n/a'; bdBin.textContent='n/a';
+    return;
+  }
+  if(low==='::1'||low==='0:0:0:0:0:0:0:1'){
+    show({cls:'yes',label:'loopback'},
+      'The <b>entire</b> IPv6 loopback space. <b>::1/128</b> — one address, where IPv4 reserved 16,777,216.');
+    bdDot.textContent='::1'; bdDec.textContent='1 (of 128 bits)';
+    bdHex.textContent='0x…0001'; bdBin.textContent='127 zeroes, then a 1';
+    return;
+  }
+  if(low==='::ffff:127.0.0.1'){
+    show({cls:'yes',label:'loopback'},
+      'An <b>IPv4-mapped IPv6</b> address — the same 127.0.0.1 wearing an IPv6 coat.');
+    bdDot.textContent='127.0.0.1'; bdDec.textContent='2130706433';
+    bdHex.textContent='0x7f000001'; bdBin.textContent='01111111 00000000 00000000 00000001';
+    return;
+  }
+
+  var v=inet_aton(raw);
+  if(v===null){
+    show({cls:'no',label:'invalid'},'<b>inet_aton()</b> would reject this. Wrong part count, a bad digit, or a number too large for the bytes it has to fill.');
+    clearBd(); return;
+  }
+
+  var q=quad(v), isLoop=(q[0]===127);
+  bdDot.textContent=q.join('.');
+  bdDec.textContent=v.toLocaleString('en-US').replace(/,/g,' ');
+  bdHex.textContent='0x'+pad(v.toString(16),8);
+  bdBin.innerHTML=q.map(function(b,i){
+    var bits=pad(b.toString(2),8);
+    return i===0&&isLoop ? '<span class="hi">'+bits+'</span>' : bits;
+  }).join(' ');
+
+  if(isLoop){
+    var extra = (v===2130706433)
+      ? 'The canonical one.'
+      : 'Not just .1 — the whole <b>127.0.0.0/8</b> loops back. On Linux this answers today; on macOS you must add the alias first.';
+    show({cls:'yes',label:'loopback'},'First octet is <b>127</b>, so this is you. '+extra+' A router that sees this on the wire must drop it.');
+  } else if(q[0]===0 && v===0){
+    show({cls:'no',label:'wildcard'},'<b>0.0.0.0</b> — not a destination. Bound by a server it means "every interface", which is how your dev server ends up on the café wifi.');
+  } else {
+    show({cls:'no',label:'not loopback'},'Valid, but it belongs to somebody else. Loopback needs a first octet of <b>127</b>.');
+  }
+}
+input.addEventListener('input',evaluate);
+
+/* preset chips */
+var PRESETS=['127.0.0.1','127.1','2130706433','0x7f000001','017700000001','127.0.0.53','localhost','::1','::ffff:127.0.0.1','0.0.0.0','127.256'];
+var pbox=document.getElementById('presets');
+PRESETS.forEach(function(p){
+  var b=document.createElement('button');
+  b.className='chip'; b.type='button'; b.textContent=p;
+  b.addEventListener('click',function(){ input.value=p; evaluate(); input.focus(); });
+  pbox.appendChild(b);
+});
+evaluate();
+
+/* ---------- roll a random loopback address ---------- */
+var rolled=document.getElementById('rolled');
+document.getElementById('roll').addEventListener('click',function(){
+  var a=(Math.random()*256)|0, b=(Math.random()*256)|0, c=((Math.random()*254)|0)+1;
+  var ip='127.'+a+'.'+b+'.'+c;
+  rolled.innerHTML='<b>'+ip+'</b> → still you. 0.000 ms.';
+  input.value=ip; evaluate();
+});
+
+/* ---------- the shell ---------- */
+var out=document.getElementById('out'), cmd=document.getElementById('cmd'), term=document.getElementById('term');
+var hist=[], hi=-1, t0=Date.now();
+
+function say(text,cls){
+  var p=document.createElement('p');
+  if(cls) p.className=cls;
+  p.textContent=text;
+  out.appendChild(p);
+  out.scrollTop=out.scrollHeight;
+}
+function typeOut(lines){
+  var i=0;
+  (function next(){
+    if(i>=lines.length) return;
+    say(lines[i][0],lines[i][1]); i++;
+    setTimeout(next,reduce?0:55);
+  })();
+}
+
+var RFCS={
+  '790':'RFC 790 (Sep 1981) — Postel lists network 127 as "reserved". No reason given.',
+  '990':'RFC 990 (1986) — Postel & Reynolds finally write down that 127 is loopback.',
+  '1122':'RFC 1122 §3.2.1.3 (Oct 1989) — 127.0.0.0/8 is the internal host loopback address.\nIt "must never appear on a network outside the host."',
+  '4291':'RFC 4291 — IPv6 addressing. Loopback is ::1/128. Exactly one address.',
+  '6761':'RFC 6761 (Feb 2013) — "localhost" is a special-use domain name. Resolvers should\nanswer it themselves and never forward it to a DNS server.'
+};
+
+var CMDS={
+  help:function(){ return [
+    ['available commands:','u'],
+    ['  ping [addr]   send a packet to yourself','d'],
+    ['  ifconfig lo   the loopback interface','d'],
+    ['  hosts         cat /etc/hosts','d'],
+    ['  rfc <number>  790 · 990 · 1122 · 4291 · 6761','d'],
+    ['  why           why 127 and not something else','d'],
+    ['  aton <addr>   parse an address the way inet_aton does','d'],
+    ['  trivia        one fact at random','d'],
+    ['  theme         flip the lights','d'],
+    ['  grain         toggle the paper texture','d'],
+    ['  clear         wipe the screen','d']
+  ];},
+  ping:function(a){
+    var target=a||'127.0.0.1', v=inet_aton(target);
+    if(target.toLowerCase()==='localhost') v=2130706433;
+    if(v===null) return [['ping: cannot resolve '+target+': Unknown host','e']];
+    var q=quad(v).join('.');
+    if(Math.floor(v/16777216)%256!==127) return [
+      ['PING '+q+': 56 data bytes',''],
+      ['this one would actually leave the machine. not our department.','d']
+    ];
+    return [
+      ['PING '+target+' ('+q+'): 56 data bytes',''],
+      ['64 bytes from '+q+': icmp_seq=0 ttl=64 time=0.041 ms',''],
+      ['64 bytes from '+q+': icmp_seq=1 ttl=64 time=0.038 ms',''],
+      ['--- '+q+' ping statistics ---','d'],
+      ['2 packets transmitted, 2 received, 0.0% packet loss','d'],
+      ['the packet never reached the network card.','u']
+    ];
+  },
+  ifconfig:function(){ return [
+    ['lo0: flags=8049<UP,LOOPBACK,RUNNING,MULTICAST>  mtu 65536','' ],
+    ['        inet 127.0.0.1  netmask 0xff000000','' ],
+    ['        inet6 ::1  prefixlen 128','' ],
+    ['mtu 65536, not 1500 — there is no wire to fragment for.','u']
+  ];},
+  hosts:function(){ return [
+    ['127.0.0.1       localhost',''],
+    ['::1             localhost',''],
+    ['# the second line is why "localhost" sometimes finds nothing:','d'],
+    ['# your resolver tries ::1 first and your server only bound IPv4.','d']
+  ];},
+  rfc:function(a){
+    var k=(a||'').replace(/[^0-9]/g,'');
+    if(RFCS[k]) return [[RFCS[k],'u']];
+    return [['rfc: try 790, 990, 1122, 4291 or 6761','e']];
+  },
+  why:function(){ return [
+    ['Class A networks ran 0 through 127.','' ],
+    ['Postel reserved the first and last of every class as a matter of habit.','' ],
+    ['127 was simply the last one on the shelf.','' ],
+    ['Then 4.2BSD hardcoded 127.0.0.1 in 1983 and the question stopped being asked.','u']
+  ];},
+  aton:function(a){
+    if(!a) return [['aton: give me an address. try: aton 127.1','e']];
+    var v=inet_aton(a);
+    if(v===null) return [['aton: "'+a+'" is not parseable','e']];
+    return [
+      [a+'  →  '+quad(v).join('.'),'u'],
+      ['32-bit: '+v+'   hex: 0x'+pad(v.toString(16),8),'d'],
+      [(Math.floor(v/16777216)%256===127)?'verdict: loopback. this is you.':'verdict: not loopback.','d']
+    ];
+  },
+  trivia:function(){
+    var T=[
+      'The loopback MTU is 65536 because there is no physical wire to fragment for.',
+      '2130706433 is 127.0.0.1 as a plain decimal integer. Browsers accept it.',
+      'systemd-resolved listens on 127.0.0.53 — a loopback address that is not .1.',
+      'Browsers treat http://localhost as a secure context, so service workers work without TLS.',
+      'A router receiving a 127/8 packet on a real interface must discard it.',
+      'IPv6 reserved one loopback address. IPv4 reserved 16,777,216.',
+      'There is an IETF draft proposing most of 127/8 be returned to normal use.'
+    ];
+    return [[T[(Math.random()*T.length)|0],'u']];
+  },
+  theme:function(){ tbtn.click(); return [['lights flipped','u']]; },
+  grain:function(){
+    var on = root.style.getPropertyValue('--grain-o')!=='';
+    root.style.setProperty('--grain-o', on ? '' : '.045');
+    return [[on?'grain off — clean glass':'grain on — paper, .045','u']];
+  },
+  whoami:function(){ return [['nobody','u'],['this page is about an address, not a person.','d']]; },
+  uptime:function(){ var s=Math.floor((Date.now()-t0)/1000); return [[' up '+s+'s,  1 user,  load average: 0.00 0.00 0.00','']]; },
+  clear:function(){ out.innerHTML=''; return []; }
+};
+
+function run(raw){
+  var line=raw.trim();
+  say('guest@localhost:~$ '+raw);
+  if(!line) return;
+  hist.push(line); hi=hist.length;
+  var parts=line.split(/\s+/), c=parts[0].toLowerCase(), arg=parts.slice(1).join(' ');
+  if(/^rm\s+-rf/.test(line)) return typeOut([['rm: cannot remove ‘/’: Permission denied','e'],['also: rude','d']]);
+  if(c==='cat' && /hosts/.test(arg)) return typeOut(CMDS.hosts());
+  if(CMDS[c]) return typeOut(CMDS[c](arg));
+  say(c+': command not found. try `help`.','e');
+}
+
+cmd.addEventListener('keydown',function(e){
+  if(e.key==='Enter'){ run(cmd.value); cmd.value=''; }
+  else if(e.key==='ArrowUp'){ e.preventDefault(); if(hi>0){hi--; cmd.value=hist[hi];} }
+  else if(e.key==='ArrowDown'){ e.preventDefault(); if(hi<hist.length-1){hi++; cmd.value=hist[hi];} else {hi=hist.length; cmd.value='';} }
+});
+term.addEventListener('click',function(){ cmd.focus(); });
+
+var booted=false;
+new IntersectionObserver(function(es,o){
+  if(!es[0].isIntersecting||booted) return;
+  booted=true; o.disconnect();
+  typeOut([
+    ['Last login: just now on ttys000','d'],
+    ['Connected to 127.0.0.1 — which is here, which is also there.','d'],
+    ['Type `help`, or `why` if you only have a minute.','u']
+  ]);
+},{threshold:.3}).observe(term);
+
+})();
+</script>
 </body>
 </html>
